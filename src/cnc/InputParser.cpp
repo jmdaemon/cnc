@@ -46,3 +46,11 @@ std::vector<std::string> InputParser::getTokens() {
 void InputParser::setTokens(std::vector<std::string> tokens) {
     this->tokens = tokens;
 }
+
+void InputParser::setSubcommands(std::vector<InputParser> subcommands) {
+    this->subcommands = subcommands;
+}
+
+std::vector<InputParser> InputParser::getSubcommands() {
+    return this->subcommands;
+}
