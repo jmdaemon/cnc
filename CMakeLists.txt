@@ -31,19 +31,25 @@ endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake/modules/" "${PROJECT_SOURCE_DIR}/cmake")
 
-include(FetchContent)
-
-# Configure project versions
+# Single source project versions
 configure_file (
   "${PROJECT_SOURCE_DIR}/include/Version.h.in"
   "${PROJECT_BINARY_DIR}/include/Version.h"
 )
 
 # Include dependencies
+include(FetchContent)
+include(MakeLibrary)
+include(Utilities)
 include(spdlog)
 include(tomlplusplus)
 include(doctest)
 include(utility)
+
+# Includes directory
+set(CSTANDARD cxx_std_17)
+set(INCLUDES_DIR "${PROJECT_SOURCE_DIR}/include")
+set(COMMAND_DIR "${INCLUDES_DIR}/command")
 
 # Add subdirectories
 add_subdirectory(src)
