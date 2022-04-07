@@ -8,13 +8,17 @@
 
 class InputParser { 
     private:
-        std::vector <std::string> tokens;
+        std::vector<std::string> tokens;
     public:
-        InputParser (int &argc, char **argv);
+        InputParser(int &argc, char **argv);
         const std::string& getArg(const std::string &option) const;
         bool argExists(const std::string &option) const; 
         bool toggleOption(std::string shortFlag, std::string longFlag) const;
         bool toggleOption(std::string flag) const;
+
+        // Getters & Setters
+        std::vector<std::string> getTokens();
+        void setTokens(std::vector<std::string> tokens);
 };
 
-#endif
+#endif // INPUT_PARSER_H
