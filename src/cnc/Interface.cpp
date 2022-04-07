@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <functional>
 
 // Behaviors
 class Specifier;
@@ -13,6 +14,9 @@ class Argument;
 // A standard command line interface is a vector of specifiers
 typedef std::vector<Specifier> stdcli;
 
+/**
+  * A Specifier is an argument that may have a short, or long flag to be passed into the command line.
+  */
 class Specifier {
   private:
     std::string shortflag;
@@ -35,12 +39,49 @@ class Specifier {
     void setMetavar(std::string metavar) { this->metavar = metavar; }
 };
 
+/**
+  * An Optional is a behavior of a specifier or flag
+  */
 class Optional {
   private:
     bool toggled;
   public:
+    Optional(bool toggle = false) : toggled(toggle) {}
+    void toggle() { this->toggled = true; }
+    bool isToggled() { return this->toggled; }
 };
 
+/**
+  * A command specifies a callback function to be executed when the
+  * command's flags are parsed.
+  */
+class Command : public Specifier {
+  private:
+      typedef Specifier super;
+    
+  public:
+      //template<typename F> void f(F &lambda) { [> ... <]}
+    template<typename F>
+    Command(std::string shortflag = "", std::string longflag = "",
+            std::string metavar = "command", std::string help = "",
+            F &cb = nullptr) {
+      super(shortflag, longflag, metavar, help);
+      callback = cb;
+    }
+
+    //template<typename F> Command(F &cb) {
+      //callback = cb;
+    //}
+
+    //template<typename F> void callback(F);
+    std::function<void()> callback;
+
+};
+
+/**
+  * An argument is a non-optional specifier that
+  * must be passed in, else the program will error out.
+  */
 class Argument : public Specifier {
   private:
       typedef Specifier super;
@@ -52,6 +93,10 @@ class Argument : public Specifier {
     }
 };
 
+/**
+  * A flag is an argument that may be turned on or off.
+  * It does not accept any arguments.
+  */
 class Flag : public Specifier, public Optional {
   private:
       typedef Specifier super;
@@ -62,6 +107,10 @@ class Flag : public Specifier, public Optional {
     }
 };
 
+/**
+  * An option is an argument that may have a value passed to it
+  * it is not required, but it can change an effect in an application.
+  */
 class Option : public Specifier, public Optional {
   private:
       typedef Specifier super;
@@ -72,18 +121,49 @@ class Option : public Specifier, public Optional {
     }
 };
 
-// Example cli
-stdcli cli = {
-    Argument("-h", "--help", "", "Show this help message"),
-    Option("-v", "--verbose", "", "Show verbose output")
+/**
+  * A subcommand is a separate subcommand containing its own
+  * arguments, options, flags, and help message
+  */
+class SubCommand {
+  private:
+    std::string name;
+    stdcli cli;
+  public:
+    SubCommand(std::string = "", stdcli cli = std::vector<Specifier>());
+    stdcli getCli();
 };
 
-//struct Args {
-    //std::vector<Argument> args;
-//};
+// Example cli
 
-//Args cli = std::make_tuple {
-    //Argument {};
-//};
+// Initialization
+stdcli cli = {
+    Argument("-h", "--help", "", "Show this help message"),
+    Option("-v", "--verbose", "", "Show verbose output"),
+};
 
-//Argument();
+// Parsing
+
+// Order of evaluation
+
+// TODO:
+// Hook up callbacks
+// Allow for multiple passing of arguments after the initial argument
+// Allow for subcommands
+// Allow for easy iteration in a switch statement
+// Allow for default arguments
+
+// Set up CLI in phases
+// Phases:
+// 1. Declaration
+// 2. Defaulting
+// 3. Parsing
+// 4. Evaluation
+// 5. Matching/checking
+
+// Parsing: Let the user add in custom parsing rules
+// Matching/checking:
+// - Let the user add custom matching rules for arguments
+// - Allow for enum switch statement match statements
+
+// Iteration over the arguments
