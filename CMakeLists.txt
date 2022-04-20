@@ -6,14 +6,15 @@ project (cnc
     LANGUAGES CXX
     )
 
-if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME) 
+# Default the standarad to c++17
+if (NOT CMAKE_CXX_STANDARD)
     set(CMAKE_CXX_STANDARD 17) 
-    set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-    set(CMAKE_CXX_STANDARD_REQUIRED True) 
-    set(CMAKE_CXX_EXTENSIONS OFF) 
-    set_property(GLOBAL PROPERTY USE_FOLDERS ON) 
+    set(CSTANDARD "cxx_std_${CMAKE_CXX_STANDARD}")
 endif()
 
+set_property(GLOBAL PROPERTY USE_FOLDERS ON) 
+
+# Use colored output
 if (NOT COLOR)
     # Don't use colored output
 else()
@@ -21,7 +22,7 @@ else()
     include(Color)
 endif()
 
-### Require out-of-source builds
+# Require out-of-source builds
 file(TO_CMAKE_PATH "${PROJECT_BINARY_DIR}/CMakeLists.txt" LOC_PATH)
 if(EXISTS "${LOC_PATH}")
     message(FATAL_ERROR "You cannot build in a source directory (or any directory with "
@@ -29,6 +30,7 @@ if(EXISTS "${LOC_PATH}")
                         "remove CMakeCache.txt and CMakeFiles.")
 endif()
 
+# Include CMake modules
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake/modules/" "${PROJECT_SOURCE_DIR}/cmake")
 
 # Single source project versions
@@ -47,8 +49,6 @@ include(doctest)
 include(utility)
 
 # Includes directory
-#set(CSTANDARD cxx_std_17)
-set(CSTANDARD "cxx_std_${CMAKE_CXX_STANDARD}")
 set(INCLUDES_DIR "${PROJECT_SOURCE_DIR}/include")
 set(COMMAND_DIR "${INCLUDES_DIR}/command")
 
