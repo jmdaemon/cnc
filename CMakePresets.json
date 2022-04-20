@@ -11,7 +11,7 @@
       "displayName": "GCC-Debug",
       "description": "Debug build using Ninja generator",
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/build/gcc-debug",
+      "binaryDir": "${sourceDir}/build/${presetName}",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_POSITION_INDEPENDENT_CODE": "TRUE",
@@ -29,7 +29,7 @@
       "displayName": "GCC-Release",
       "description": "Release build using Ninja generator",
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/build/gcc-release",
+      "binaryDir": "${sourceDir}/build/${presetName}",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "CMAKE_POSITION_INDEPENDENT_CODE": "TRUE",
