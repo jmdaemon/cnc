@@ -39,7 +39,7 @@ configure_file (
 
 # Include dependencies
 include(FetchContent)
-include(MakeLibrary)
+include(Library)
 include(Utilities)
 include(spdlog)
 include(tomlplusplus)
@@ -47,7 +47,8 @@ include(doctest)
 include(utility)
 
 # Includes directory
-set(CSTANDARD cxx_std_17)
+#set(CSTANDARD cxx_std_17)
+set(CSTANDARD "cxx_std_${CMAKE_CXX_STANDARD}")
 set(INCLUDES_DIR "${PROJECT_SOURCE_DIR}/include")
 set(COMMAND_DIR "${INCLUDES_DIR}/command")
 
