@@ -3,5 +3,5 @@ make_static_shared_lib(
     CSTANDARD ${CSTANDARD}
     HEADERS ${COMMAND_DIR}
     SOURCES InputParser.cpp
-    DEPS fmt utility
+    DEPS fmt
     SRC_GROUP_FILES "${COMMAND_DIR}")
