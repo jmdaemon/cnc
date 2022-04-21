@@ -46,6 +46,7 @@ include(Utilities)
 include(spdlog)
 include(tomlplusplus)
 include(doctest)
+include(utility)
 
 # Includes directory
 set(INCLUDES_DIR "${PROJECT_SOURCE_DIR}/include")
