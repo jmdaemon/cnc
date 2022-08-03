@@ -4,3 +4,6 @@
 [submodule "presets"]
 	path = presets
 	url = https://github.com/jmdaemon/cmake-presets
+[submodule "subprojects/utility"]
+	path = subprojects/utility
+	url = https://github.com/jmdaemon/utility
