@@ -48,7 +48,7 @@ set(COMMAND_DIR ${INCLUDES_DIR}/command)
 # Add subdirectories
 add_subdirectory(src)
 
-if(BUILD_TESTING)
+if(BUILD_TESTING AND NOT USE_AS_SUBPROJECT)
     include(doctest)
     include(MakeTests)
     include(CTest)
