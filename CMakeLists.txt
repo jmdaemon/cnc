@@ -33,9 +33,7 @@ endif()
 
 # Include dependencies
 # CMake modules
-include(FetchContent)
 include(Library)
-include(Utilities)
 
 include(spdlog)
 include(tomlplusplus)
@@ -48,12 +46,15 @@ set(COMMAND_DIR ${INCLUDES_DIR}/command)
 # Add subdirectories
 add_subdirectory(src)
 
-if(BUILD_TESTING AND NOT USE_AS_SUBPROJECT)
+if (BUILD_TESTING AND NOT USE_AS_SUBPROJECT)
     include(doctest)
     include(MakeTests)
     include(CTest)
     add_subdirectory(tests)
 endif()
 
-# Package for debian
-include(Debian)
+
+if (NOT USE_AS_SUBPROJECT)
+    # Package for debian
+    include(Debian)
+endif()
